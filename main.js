@@ -3,19 +3,22 @@ document.addEventListener('DOMContentLoaded',()=>{
   const background = document.querySelector('.grid');
   const doodler = document.createElement('div');
 
-  let startPoint = 150
+  let startPoint = 150;
   let doodlerLeftSpace = 50;
   let doodlerBottomSpace = startPoint;
 
   let platformCount = 5;
   let platforms = [];
 
-  let upTimerId
-  let downTimerId
+  let upTimerId;
+  let downTimerId;
+  let leftTimerId;
+  let rightTimerId;
 
   let isGameover = false;
-
-  let isJumping = true
+  let isJumping = true;
+  let isGoingLeft = false;
+  let isGoingRight = false;
 
   const createDoodler = ()=> {
     background.appendChild(doodler)
@@ -121,12 +124,52 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const control = (e)=> {
     if(e.key==='ArrowLeft'){
-
+      moveLeft()
     }else if(e.key==='ArrowRight'){
-
+      moveRight()
     }else if(e.key==='ArrowUp'){
-      moveStraight
+      moveStraight()
     }
+  }
+
+  const moveLeft = () => {
+    if(isGoingRight){
+      clearInterval(rightTimerId)
+      isGoingRight = false
+    }
+
+    leftTimerId = setInterval(function(){
+      if(doodlerLeftSpace>=0){
+        doodlerLeftSpace -= 5;
+        doodler.style.left = `${doodlerLeftSpace}px`        
+      }else moveRight()
+
+    },30)
+    
+  }
+
+  const moveRight = () => {
+    if(isGoingLeft){
+      clearInterval(leftTimerId)
+      isGoingLeft = false
+    }
+    isGoingRight = true;
+
+    rightTimerId = setInterval(function(){
+      if(doodlerLeftSpace<=340){
+        doodlerLeftSpace += 5;
+        doodler.style.left = `${doodlerLeftSpace}px`        
+      }else moveLeft()
+
+    },30)
+    
+  }
+
+  const moveStraight = () => {
+    isGoingLeft = false
+    isGoingRight = false
+    clearInterval(leftTimerId)
+    clearInterval(rightTimerId)
   }
 
   const start = () => {
@@ -135,6 +178,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       createDoodler();
       setInterval(movePlatforms,30);
       jump()
+      document.addEventListener('keyup',control)
 
     } 
   }
