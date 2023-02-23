@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   let isJumping = true;
   let isGoingLeft = false;
   let isGoingRight = false;
+  let score = 0
 
   const createDoodler = ()=> {
     background.appendChild(doodler)
@@ -66,6 +67,16 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         let visual = platform.visual
         visual.style.bottom = `${platform.bottom}px` 
+
+        if(platform.bottom<10){
+          let firstPlatform = platforms[0].visual;
+          firstPlatform.classList.remove('platform')
+          platforms.shift()
+          score++
+          console.log(platforms)
+          let newPlatForm = new Platform(600)
+          platforms.push(newPlatForm)
+        }
       })
     }
   }
@@ -117,8 +128,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   const gameOver = () => {
     isGameover = true;
 
+    while(background.firstChild){
+      background.removeChild(background.firstChild)
+    }
+    grid.innerHTML = score
     clearInterval(downTimerId);
     clearInterval(upTimerId);
+    clearInterval(leftTimerId);
+    clearInterval(rightTimerId)
 
   }
 

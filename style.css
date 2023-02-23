@@ -23,24 +23,24 @@ body{
 }
 
 .grid {
+  background-image: url('./images/background.png');
   width: 400px;
   height: 600px;
   position: relative;
 
-  background-color: lightskyblue;
-  border: 2px solid lightblue;
   box-shadow: 4px 4px 4px 4px black;
 }
 
 .doodler {
-  width: 60px;
+  background-image: url('./images/doodler-guy.png');
+  width: 85px;
   height: 85px;
   position: absolute;
-
-  background-color: salmon;
+  outline: 1px solid black;
 }
 
 .platform {
+  background-image: url('./images/platform.png');
   width: 85px;
   height: 15px;
   position: absolute;
